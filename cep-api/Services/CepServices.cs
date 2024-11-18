@@ -1,5 +1,7 @@
 ﻿using cep_api.Model;
+using System.Threading;
 using System.Text.Json;
+using System.Net.Http;
 
 namespace cep_api.Services
 {
@@ -20,7 +22,7 @@ namespace cep_api.Services
             if (response.IsSuccessStatusCode)
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
-                var fullData = JsonSerializer.Deserialize<CepModel>(responseContent);
+                var fullData = JsonSerializer.Deserialize<CepModel>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
                 if (fullData != null)
                 {
@@ -34,6 +36,7 @@ namespace cep_api.Services
             }
 
             return null;
+                
         }
     }
 }
